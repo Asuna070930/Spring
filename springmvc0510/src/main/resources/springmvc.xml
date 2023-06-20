@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd
+">
+
+    <!--配置拦截器-->
+    <mvc:interceptors>
+        <!--声明定义的拦截器通过这种方式定义的拦截器会拦截所有请求-->
+        <bean id="firstInterceptor" class="com.atguigu.interceptor.FirstInterceptor"></bean>
+        <!--通过另外一种方式配置拦截器，这种方式可以指定哪些请求要被拦截-->
+        <mvc:interceptor>
+            <!--配置拦截的路径-->
+            <mvc:mapping path="/testInterceptor"/>
+            <!--配置不拦截的路径-->
+            <!--<mvc:exclude-mapping path="/testInterceptor"/>-->
+            <bean id="secondInterceptor" class="com.atguigu.interceptor.SecondInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!--1.配置接访问静态资源-->
+    <!--    <mvc:view-controller path="/" view-name="index"></mvc:view-controller>-->
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+    <mvc:annotation-driven></mvc:annotation-driven>
+
+    <!--2.配置自动扫描的包-->
+    <context:component-scan base-package="com.atguigu"></context:component-scan>
+
+    <!--3.配置视图解析器-->
+    <bean class="org.thymeleaf.spring5.view.ThymeleafViewResolver" id="viewResolver">
+        <!--配置字符集属性-->
+        <property name="characterEncoding" value="UTF-8"></property>
+        <!--配置模板引擎属性-->
+        <property name="templateEngine">
+            <!--配置内部bean-->
+            <bean class="org.thymeleaf.spring5.SpringTemplateEngine">
+                <!--配置模块的解析器属性-->
+                <property name="templateResolver">
+                    <!--配置内部bean-->
+                    <bean class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+                        <!--配置前缀-->
+                        <property name="prefix" value="/"></property>
+                        <!--配置后缀-->
+                        <property name="suffix" value=".html"></property>
+                        <!--配置字符集-->
+                        <property name="characterEncoding" value="UTF-8"></property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <!--    4.创建文件上传的工具类对象-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"></property>
+        <property name="maxUploadSize" value="99999999"></property>
+    </bean>
+</beans>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>testa.html</h1>
+
+<a href="/testspringmvc">testspringmvc-get</a>
+
+<form action="/testspringmvc" method="post">
+    <input type="submit" value="提交">
+</form>
+
+<a th:href="@{/testAnt/a/ant}">Test Ant</a><br>
+<a th:href="@{/testAnt/ab/ant}">Test Ant</a><br>
+<a th:href="@{/testAnt/a/b/c/ant}">Test Ant</a><br>
+<a th:href="@{/index/zhangsan/123456}">Test PathVariable</a><br>
+
+<form action="/testput" method="post">
+    <input type="hidden" name="_method" value="put">
+    <input type="submit" value="转换PUT请求">
+</form>
+
+<form action="/testdelete" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" value="转换DELETE请求">
+</form>
+
+<form action="/reg" method="post">
+    uname:<input type="text" name="username"><br>
+    age:<input type="text" name="uage"><br>
+    <input type="submit">
+</form>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置bean
+        id属性：设置bean的唯一标识,等价于对象名
+        class属性：设置类的全类名，IOC容器通过反射创建对象
+        property name  写的是类中的属性名
+        property value 写的是给属性赋的值
+    -->
+    <bean id="helloWorld" class="com.atguigu.bean.HelloWorld">
+        <property name="name" value="Spring"></property>
+    </bean>
+
+    <bean id="mygrade" class="com.atguigu.bean.Grade">
+        <property name="gid" value="1"></property>
+        <property name="gname">
+            <value>一年级</value>
+        </property>
+    </bean>
+
+    <bean id="stu" class="com.atguigu.bean.Student">
+        <property name="stuName" value="胡歌"></property>
+        <property name="stuAge" value="22"></property>
+        <property name="grade" ref="mygrade"></property>
+    </bean>
+
+    <bean id="stu2" class="com.atguigu.bean.Student">
+        <constructor-arg name="stuName" value="liuyifei"></constructor-arg>
+        <constructor-arg name="stuAge" value="22"></constructor-arg>
+        <constructor-arg name="grade" ref="mygrade"></constructor-arg>
+    </bean>
+</beans>

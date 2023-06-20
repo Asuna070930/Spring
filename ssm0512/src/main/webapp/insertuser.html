@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/script/vue.js"></script>
+    <script type="text/javascript" src="/script/axios.js"></script>
+</head>
+<body>
+<h1 align="center">添加学生用户信息</h1>
+<div id="app">
+    <form action="/insertusers" method="post">
+        <table border="1" cellspacing="0px">
+            <tr>
+                <td> 姓名:</td>
+                <td><input type="text" name="lastName"></td>
+            </tr>
+            <tr>
+                <td>性别:</td>
+                <td>
+                    <input type="radio" name="gender" value="1">男
+                    <input type="radio" name="gender" value="0">女
+                </td>
+            </tr>
+            <tr>
+                <td>出生日期</td>
+                <td>
+                    <input type="date" name="birthday">
+                </td>
+            </tr>
+            <tr>
+                <td>奖学金</td>
+                <td>
+                    <input type="text" name="salary">
+                </td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td>
+                    <input type="text" name="email">
+                </td>
+            </tr>
+            <tr>
+                <td>年级</td>
+                <td>
+                    <select name="gradeId">
+                        <option value="0">选择年级</option>
+                        <option v-for="g in grades"
+                                :value="g.id"
+                                v-text="g.name"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="add">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+</body>
+
+<script>
+    new Vue({
+        "el": "#app",
+        "data": {
+            /*所有部门的数据模型*/
+            grades: []
+        },
+        "methods": {},
+        /*created生命周期中,获取所有部门*/
+        "created": function () {
+            axios({
+                "url": "/findGrade",
+                "method": "post",
+                "params": {}
+            }).then(response => {
+                this.grades = response.data.resultData;
+            })
+        }
+    });
+</script>
+</html>

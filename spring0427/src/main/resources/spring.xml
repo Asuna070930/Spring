@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="grade" class="com.atguigu.bean.Grade" scope="prototype">
+        <property name="gname" value="高三byname"></property>
+    </bean>
+    <!-- byName:要求student类中年级属性的属性名=spring配置文件中的id值相同-->
+    <bean id="stu7" class="com.atguigu.bean.Student" autowire="byName"></bean>
+
+    <!-- byType:要求student类中年级属性的类型=spring配置文件中的某个对象的类型，如果出现多个对象的类型都匹配，则报错-->
+    <bean id="stu8" class="com.atguigu.bean.Student" autowire="byType"></bean>
+
+    <!-- constructor:要求student类中存在对应的构造器，可以实现数据的注入
+   new Student(grade);
+-->
+    <bean id="stu9" class="com.atguigu.bean.Student" autowire="constructor"></bean>
+</beans>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/script/vue.js"></script>
+    <script type="text/javascript" src="/script/axios.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="button" value="测试ajax001" @click="testajax001">
+    <input type="button" value="测试ajax002-发送json数据" @click="testajax002">
+    <input type="button" value="测试ajax003-发送json数组" @click="testajax003">
+    <input type="button" value="测试ajax004-发送嵌套json" @click="testajax004">
+</div>
+</body>
+<script type="text/javascript">
+    new Vue({
+        "el": "#app",
+        "data": {},
+        "methods": {
+            "testajax001"() {
+                axios({
+                    "url": "/testajax001",
+                    "method": "post",
+                    "params": {
+                        "uname": "刘能",
+                        "upass": "2233"
+                    }
+                }).then(response => {
+                })
+            },
+            testajax002() {
+                axios({
+                    "url": "/testajax002",
+                    "method": "post",
+                    "data": {
+                        "userName": "胡歌",
+                        "passWord": "刘亦菲",
+                        "birthday": "2023-2-2 22:22:22"
+                    }
+                }).then(response => {
+                })
+            },
+            testajax003() {
+                axios({
+                    "url": "/testajax003",
+                    "method": "post",
+                    "data": [{
+                        "userName": "胡歌",
+                        "passWord": "刘亦菲",
+                        "birthday": "2023-2-2 22:22:22"
+                    },
+                        {
+                            "userName": "saber",
+                            "passWord": "shilang",
+                            "birthday": "2023-2-2 22:22:22"
+                        }
+                    ]
+                }).then(response => {
+                })
+            },
+            testajax004() {
+                axios({
+                    "url": "/testajax004",
+                    "method": "post",
+                    "data":{
+                        "userName":"tongren",
+                        "passWord":"asuna",
+                        "birthday":"2023-2-2 22:22:22",
+                        "pet":{"petname":"youyi"}
+                    }
+                }).then(response => {
+                })
+            }
+        }
+    })
+</script>
+</html>

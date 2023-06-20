@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>展示雇员列表</h1>
+<table border="1" cellpadding="0" width="800">
+  <tr>
+    <td>id</td>
+    <td>name</td>
+    <td>gender</td>
+    <td>email</td>
+    <td>salary</td>
+    <td>deptid</td>
+  </tr>
+
+  <tr th:each="emp:${emplist}">
+    <td th:text="${emp.id}">id</td>
+    <td th:text="${emp.lastName}">name</td>
+    <td th:text="${emp.gender}">gender</td>
+    <td th:text="${emp.email}">email</td>
+    <td th:text="${emp.salary}">salary</td>
+    <td th:text="${emp.deptId}">deptid</td>
+  </tr>
+</table>
+</body>
+</html>

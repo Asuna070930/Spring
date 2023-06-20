@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>测试文件上传</h1>
+<!--
+    文件上传的表单的要求：
+        1.请求方式为POST
+        2.form表单的enctype的属性值必须指定为multipart/form-data
+        3.上传文件的表单项的type属性值为file
+-->
+<form action="/testFileUpload" method="post" enctype="multipart/form-data">
+    描述：<input type="text" name="desc"><br>
+    文件：<input type="file" name="filename"><br>
+    <input type="submit">
+</form>
+
+<form action="/testFileUpload2" method="post" enctype="multipart/form-data">
+    描述：<input type="text" name="desc"><br>
+    文件：<input type="file" name="filename" multiple><br>
+    <input type="submit">
+</form>
+
+<a href="/testResponseEntity">下载图片</a><br>
+</body>
+</html>

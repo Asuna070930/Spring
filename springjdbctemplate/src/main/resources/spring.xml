@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+">
+    <!--1.指定属性文件路径-->
+    <context:property-placeholder location="classpath:druid.properties"></context:property-placeholder>
+    <!--2.创建数据源对象-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${jdbc_username}"></property>
+        <property name="password" value="${jdbc_password}"></property>
+        <property name="url" value="${jdbc_url}"></property>
+        <property name="driverClassName" value="${jdbc_driverClassName}"></property>
+        <property name="initialSize" value="${jdbc_initialSize}"></property>
+        <property name="maxActive" value="${jdbc_maxActive}"></property>
+    </bean>
+
+    <!--3.配置JdbcTemplate-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <!--配置数据源属性-->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!-- 4.注意扫描的包路径，是含有注解的类的父包目录-->
+    <context:component-scan base-package="com.atguigu"></context:component-scan>
+
+    <!--5.配置事务管理器-->
+    <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        &lt;!&ndash;配置数据源属性&ndash;&gt;
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>-->
+
+    <!--6.开启事务注解支持当事务管理器的id是transactionManager时，可以省略指定transaction-manager属性
+    -->
+    <!--    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>-->
+    <!--<tx:annotation-driven></tx:annotation-driven>-->
+    <!--XML方式的声明式事务-->
+    <!--配置事务管理器-->
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--配置数据源属性-->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!--配置声明式事务-->
+    <tx:advice id="tx" transaction-manager="transactionManager">
+        <!--设置添加事务的方法-->
+        <tx:attributes>
+            <!--设置查询的方法的只读属性为true-->
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="zhuanzhang" propagation="REQUIRED"></tx:method>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--AOP配置-->
+    <aop:config>
+        <!--配置切入点表达式-->
+        <aop:pointcut id="pointCut"
+                      expression="execution(* com.atguigu.service.impl.*.*(..))"/>
+        <!--将事务方法和切入点表达式关联起来-->
+        <aop:advisor advice-ref="tx" pointcut-ref="pointCut"></aop:advisor>
+    </aop:config>
+</beans>

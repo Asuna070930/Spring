@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://mybatis.org/schema/mybatis-spring
+       http://mybatis.org/schema/mybatis-spring.xsd">
+    <!--配置自动扫描的包-->
+    <context:component-scan base-package="com.atguigu">
+        <!--配置不扫描Controller-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--引入外部属性文件-->
+    <context:property-placeholder location="classpath:druid.properties"></context:property-placeholder>
+
+    <!--配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${jdbc_username}"></property>
+        <property name="password" value="${jdbc_password}"></property>
+        <property name="url" value="${jdbc_url}"></property>
+        <property name="driverClassName" value="${jdbc_driverClassName}"></property>
+        <property name="initialSize" value="${jdbc_initialSize}"></property>
+        <property name="maxActive" value="${jdbc_maxActive}"></property>
+    </bean>
+    <!--配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <!--开启事务注解支持-->
+    <tx:annotation-driven></tx:annotation-driven>
+
+    <!--整合MyBatis-->
+    <!--1.配置SqlSessionFactoryBean-->
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--配置数据源属性-->
+        <property name="dataSource" ref="dataSource"></property>
+        <!--配置MyBatis全局配置文件的路径-->
+        <property name="configLocation" value="classpath:mybatis.xml"></property>
+        <!--配置Mapper映射文件的路径,mapper指的是文件夹名称-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+        <property name="typeAliasesPackage" value="com.atguigu.bean"></property>
+        <!--配置别名等原来在MyBatis全局配置文件中的其他配置-->
+    </bean>
+    <!--2.扫描Mapper接口-->
+    <mybatis-spring:scan base-package="com.atguigu.dao"></mybatis-spring:scan>
+</beans>

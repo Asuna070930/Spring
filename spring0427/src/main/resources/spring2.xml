@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+">
+    <!-- 读取外部properties配置文件 -->
+    <context:property-placeholder location="classpath:druid.properties"></context:property-placeholder>
+
+    <!-- 通过${key}引入配置文件中的配置信息 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc_driverClassName}"></property>
+        <property name="username" value="${jdbc_username}"></property>
+        <property name="password" value="${jdbc_password}"></property>
+        <property name="url" value="${jdbc_url}"></property>
+        <property name="maxActive" value="${jdbc_maxActive}"></property>
+        <property name="initialSize" value="${jdbc_initialSize}"></property>
+    </bean>
+
+    <!--配置工厂bean-->
+    <bean id="fac" class="com.atguigu.bean.MyFactoryBean"></bean>
+
+    <bean id="mybeanlife" class="com.atguigu.bean.BeanLife">
+        <property name="name" value="saber"></property>
+    </bean>
+</beans>

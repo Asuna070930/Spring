@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--  Spring 整合 MyBatis 后， MyBatis中配置数据源，事务等一些配置都可以
+         迁移到Spring的整合配置中。MyBatis配置文件中只需要配置与MyBatis相关
+         的即可。
+    -->
+    <!-- settings: 包含很多重要的设置项  -->
+    <settings>
+        <!-- 设置驼峰命名映射规则 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--&lt;!&ndash;设置Mybatis对null值的默认处理 &ndash;&gt;
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        &lt;!&ndash; 开启延迟加载 &ndash;&gt;
+        <setting name="lazyLoadingEnabled" value="true"/>
+        &lt;!&ndash; 设置数据按需加载 &ndash;&gt;
+        <setting name="aggressiveLazyLoading" value="false"/>
+        &lt;!&ndash; 配置开启二级缓存 &ndash;&gt;
+        <setting name="cacheEnabled" value="true"/>-->
+    </settings>
+
+    <!--配置分页插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+
+</configuration>

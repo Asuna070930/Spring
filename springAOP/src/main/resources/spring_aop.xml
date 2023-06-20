@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+">
+    <!--1.配置扫描注解包-->
+    <context:component-scan base-package="com.atguigu.aop"></context:component-scan>
+
+    <!--2.启用aspectj注解支持-->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+    <!-- 创建切面类对象，功能等价于@Component-->
+    <bean id="myaspect" class="com.atguigu.NoteAspect"></bean>
+    <!--配置aop-->
+    <aop:config>
+        <!--功能等价于@PointCut,id自定义名称，expression 定义表达式-->
+        <aop:pointcut id="mypc" expression="execution(* com.atguigu.aop.dao.impl.*.*(..))"/>
+        <!-- 等价于@Aspect -->
+        <aop:aspect ref="myaspect">
+            <aop:before method="beforeNote" pointcut-ref="mypc"></aop:before>
+            <aop:after-returning method="afterReturningNote" pointcut-ref="mypc" returning="result"></aop:after-returning>
+            <aop:around method="aroundNote" pointcut-ref="mypc"></aop:around>
+            <aop:after-throwing method="afterException" pointcut-ref="mypc" throwing="e"></aop:after-throwing>
+            <aop:after method="afterNote" pointcut-ref="mypc"></aop:after>
+        </aop:aspect>
+    </aop:config>
+</beans>
